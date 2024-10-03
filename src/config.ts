@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import toml from '@iarna/toml';
+import { string } from 'zod';
 
 const configFileName = 'config.toml';
 
@@ -18,6 +19,19 @@ interface Config {
     SEARXNG: string;
     OLLAMA: string;
   };
+  AZURE_OPENAI: {
+    AZURE_OPENAI_MODEL: string;
+    AZURE_OPENAI_API_KEY: string;
+    AZURE_OPENAI_INSTANCE: string;
+    AZURE_OPENAI_DEPLOYMENT: string;
+    AZURE_OPENAI_API_VERSION: string;
+  };
+  AZURE_OPENAI_EMBEDDING: {
+    AZURE_OPENAI_EMBEDDING_API_KEY: string;
+    AZURE_OPENAI_EMBEDDING_INSTANCE: string;
+    AZURE_OPENAI_EMBEDDING_DEPLOYMENT: string;
+    AZURE_OPENAI_EMBEDDING_API_VERSION: string;
+  }
 }
 
 type RecursivePartial<T> = {
@@ -44,6 +58,21 @@ export const getSearxngApiEndpoint = () =>
   process.env.SEARXNG_API_URL || loadConfig().API_ENDPOINTS.SEARXNG;
 
 export const getOllamaApiEndpoint = () => loadConfig().API_ENDPOINTS.OLLAMA;
+
+// For AzureOpenAI
+export const getAzureOpenAIModel = () => loadConfig().AZURE_OPENAI.AZURE_OPENAI_MODEL;
+export const getAzureOpenAIApiKey = () => loadConfig().AZURE_OPENAI.AZURE_OPENAI_API_KEY;
+export const getAzureOpenAIInstance = () => loadConfig().AZURE_OPENAI.AZURE_OPENAI_INSTANCE;
+export const getAzureOpenAIDeployment = () => loadConfig().AZURE_OPENAI.AZURE_OPENAI_DEPLOYMENT;
+export const getAzureOpenAIAPIVersion = () => loadConfig().AZURE_OPENAI.AZURE_OPENAI_API_VERSION;
+
+// For AzureOpenAI Embeddings
+export const getAzureOpenAIEmbeddingApiKey = () => loadConfig().AZURE_OPENAI_EMBEDDING.AZURE_OPENAI_EMBEDDING_API_KEY;
+export const getAzureOpenAIEmbeddingInstance = () => loadConfig().AZURE_OPENAI_EMBEDDING.AZURE_OPENAI_EMBEDDING_INSTANCE;
+export const getAzureOpenAIEmbeddingDeployment = () => loadConfig().AZURE_OPENAI_EMBEDDING.AZURE_OPENAI_EMBEDDING_DEPLOYMENT;
+export const getAzureOpenAIEmbeddingApiVersion = () => loadConfig().AZURE_OPENAI_EMBEDDING.AZURE_OPENAI_EMBEDDING_API_VERSION;
+
+
 
 export const updateConfig = (config: RecursivePartial<Config>) => {
   const currentConfig = loadConfig();

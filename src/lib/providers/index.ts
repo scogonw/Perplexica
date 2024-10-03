@@ -1,6 +1,7 @@
 import { loadGroqChatModels } from './groq';
 import { loadOllamaChatModels, loadOllamaEmbeddingsModels } from './ollama';
 import { loadOpenAIChatModels, loadOpenAIEmbeddingsModels } from './openai';
+import { loadAzureOpenAIChatModels, loadAzureOpenAIEmbeddingsModels } from './azureopenai';
 import { loadAnthropicChatModels } from './anthropic';
 import { loadTransformersEmbeddingsModels } from './transformers';
 
@@ -9,12 +10,14 @@ const chatModelProviders = {
   groq: loadGroqChatModels,
   ollama: loadOllamaChatModels,
   anthropic: loadAnthropicChatModels,
+  azureopenai: loadAzureOpenAIChatModels,
 };
 
 const embeddingModelProviders = {
   openai: loadOpenAIEmbeddingsModels,
   local: loadTransformersEmbeddingsModels,
   ollama: loadOllamaEmbeddingsModels,
+  azureopenai: loadAzureOpenAIEmbeddingsModels
 };
 
 export const getAvailableChatModelProviders = async () => {
@@ -27,7 +30,7 @@ export const getAvailableChatModelProviders = async () => {
     }
   }
 
-  models['custom_openai'] = {};
+  models['custom_openai'] = {'Name':'om'};
 
   return models;
 };
